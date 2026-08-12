@@ -8,17 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
 
-  /* ============================================================
-     EDIT ME — quick guide
-     1) PHOTOS: replace photo1.jpg / photo2.jpg / photo3.jpg (search "EDIT PHOTO")
-        Put your 3 image files in the same folder as this index.html
-        and keep those exact names, or change the filenames below.
-     2) LETTER: search "EDIT LETTER" and replace the paragraph text.
-     3) SONG: search "EDIT SONG" — paste your Spotify embed link there.
-        (Open the song in Spotify → Share → Embed track → copy the src="...")
-     4) Her name: search "EDIT NAME" (appears twice).
-     ============================================================ */
-
   :root{
     --dusk: #22303a;
     --dusk-deep: #182229;
@@ -42,7 +31,6 @@
     overflow-x:hidden;
   }
 
-  /* ---------- rain canvas + window frame, present on every page ---------- */
   #rain{
     position:fixed; inset:0;
     width:100%; height:100%;
@@ -62,11 +50,11 @@
     position:absolute;
     background: rgba(210,225,230,0.06);
   }
-  .window-frame::before{ /* vertical mullion */
+  .window-frame::before{
     left:50%; top:0; bottom:0; width:1px;
     transform: translateX(-50%);
   }
-  .window-frame::after{ /* horizontal mullion */
+  .window-frame::after{
     top:50%; left:0; right:0; height:1px;
     transform: translateY(-50%);
   }
@@ -77,7 +65,6 @@
       linear-gradient(to bottom, rgba(10,15,18,0.35), rgba(10,15,18,0) 15%, rgba(10,15,18,0) 80%, rgba(10,15,18,0.45));
   }
 
-  /* ---------- nav ---------- */
   nav{
     position:fixed; top:0; left:0; right:0; z-index:10;
     display:flex; align-items:center; justify-content:space-between;
@@ -158,7 +145,6 @@
     margin: 0 0 48px;
   }
 
-  /* ---------- PAGE 1: photos ---------- */
   .gallery{
     display:flex; flex-wrap:wrap; justify-content:center;
     gap: 36px 28px;
@@ -189,16 +175,10 @@
     background-size: cover;
     background-position: center;
     background-color: #3a4a52;
-    background-image:
-      linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)),
-      repeating-linear-gradient(115deg, rgba(220,230,235,0.06) 0px, rgba(220,230,235,0.06) 2px, transparent 2px, transparent 10px);
   }
-  /* EDIT PHOTO 1 — replace url() with your file, e.g. photo1.jpg */
-  #photo1{ background-image: url( ), linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)); }
-  /* EDIT PHOTO 2 */
-  #photo2{ background-image: url( ), linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)); }
-  /* EDIT PHOTO 3 */
-  #photo3{ background-image: url( ), linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)); }
+  #photo1{ background-image: url('photo1.jpg'); }
+  #photo2{ background-image: url('photo2.jpg'); }
+  #photo3{ background-image: url('photo3.jpg'); }
 
   .caption{
     font-family: 'Fraunces', serif;
@@ -209,7 +189,6 @@
     margin-top: 12px;
   }
 
-  /* ---------- PAGE 2: letter ---------- */
   .letter-wrap{ display:flex; justify-content:center; }
   .letter{
     background: var(--paper);
@@ -251,7 +230,6 @@
     color: var(--clay);
   }
 
-  /* ---------- PAGE 3: song ---------- */
   .song-stage{
     display:flex; flex-direction:column; align-items:center; gap: 28px;
   }
@@ -319,36 +297,30 @@
 
 <main>
 
-  <!-- PAGE 1 — PHOTOS -->
   <section class="page active" id="page-photos">
     <p class="eyebrow">Delhi, monsoon</p>
-    <!-- EDIT NAME -->
-    <h1 class="title">a few frames of us, [C]</h1>
+    <h1 class="title">a few frames of us, C</h1>
     <p class="sub">taped up before the ink could run in the rain</p>
 
     <div class="gallery">
       <figure class="polaroid">
         <div class="tape"></div>
         <div class="photo-slot" id="photo1"></div>
-        <!-- EDIT caption 1 -->
         <figcaption class="caption">I miss you</figcaption>
       </figure>
       <figure class="polaroid">
         <div class="tape"></div>
         <div class="photo-slot" id="photo2"></div>
-        <!-- EDIT caption 2 -->
         <figcaption class="caption">My happiness</figcaption>
       </figure>
       <figure class="polaroid">
         <div class="tape"></div>
         <div class="photo-slot" id="photo3"></div>
-        <!-- EDIT caption 3 -->
         <figcaption class="caption">my person</figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- PAGE 2 — LETTER -->
   <section class="page" id="page-letter">
     <p class="eyebrow">for you, on a grey afternoon</p>
     <h1 class="title">a small letter</h1>
@@ -357,16 +329,14 @@
     <div class="letter-wrap">
       <div class="letter">
         <div class="stain"></div>
-        <!-- EDIT NAME -->
         <p class="letter-head">Dear C,</p>
 
-        <!-- EDIT LETTER — replace this paragraph with your own words -->
         <p>
-          I love you C. With all my heart and all my being. Everything about you is 
-          my favourite part about you. I know we haven’t been doing the best
+          I love you C. With all my heart and all my being. Everything about you is
+          my favourite part about you. I know we haven't been doing the best
           but I want you to know that you mean the world to me. You are the
           love of my life. You are the woman of my dreams and I want to spend the
-          rest of my life with you. I love you more always. You’re the perfect girlfriend
+          rest of my life with you. I love you more always. You're the perfect girlfriend
           to me. I love you my c. Always.
         </p>
 
@@ -375,7 +345,6 @@
     </div>
   </section>
 
-  <!-- PAGE 3 — SONG -->
   <section class="page" id="page-song">
     <p class="eyebrow">put this on</p>
     <h1 class="title">our song </h1>
@@ -391,7 +360,7 @@
         -->
         <iframe
           style="border-radius:10px"
-          src="https://open.spotify.com/embed/track/YOUR_TRACK_ID_HERE"
+          src="https://open.spotify.com/embed/track/https://open.spotify.com/track/2y7fdOLYBFFbuuMs96KndV?si=2e0a36d2dfa7497d"
           width="100%" height="152" frameborder="0"
           allowfullscreen=""
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -407,7 +376,6 @@
 <footer>made on a rainy day, for a rainy day</footer>
 
 <script>
-  // ---- tab switching ----
   const buttons = document.querySelectorAll('.tabs button');
   const pages = document.querySelectorAll('.page');
   buttons.forEach(btn => {
@@ -421,7 +389,6 @@
     });
   });
 
-  // ---- rain canvas ----
   const canvas = document.getElementById('rain');
   const ctx = canvas.getContext('2d');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -470,7 +437,6 @@
   }
 
   if(reduceMotion){
-    // draw a single static frame instead of animating
     tick();
   } else {
     requestAnimationFrame(tick);
