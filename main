@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>baarish aur tum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  /* ============================================================
+     EDIT ME — quick guide
+     1) PHOTOS: replace photo1.jpg / photo2.jpg / photo3.jpg (search "EDIT PHOTO")
+        Put your 3 image files in the same folder as this index.html
+        and keep those exact names, or change the filenames below.
+     2) LETTER: search "EDIT LETTER" and replace the paragraph text.
+     3) SONG: search "EDIT SONG" — paste your Spotify embed link there.
+        (Open the song in Spotify → Share → Embed track → copy the src="...")
+     4) Her name: search "EDIT NAME" (appears twice).
+     ============================================================ */
+
+  :root{
+    --dusk: #22303a;
+    --dusk-deep: #182229;
+    --rain: #93aebb;
+    --amber: #d9a441;
+    --paper: #ece2cd;
+    --paper-line: #cfc0a0;
+    --clay: #a85d3d;
+    --mist: #cddbe0;
+    --ink: #1a2329;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--dusk-deep);
+    color: var(--mist);
+    font-family: 'Literata', serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---------- rain canvas + window frame, present on every page ---------- */
+  #rain{
+    position:fixed; inset:0;
+    width:100%; height:100%;
+    z-index:0;
+    pointer-events:none;
+    opacity:0.55;
+  }
+
+  .window-frame{
+    position:fixed; inset:0;
+    z-index:1;
+    pointer-events:none;
+  }
+  .window-frame::before,
+  .window-frame::after{
+    content:"";
+    position:absolute;
+    background: rgba(210,225,230,0.06);
+  }
+  .window-frame::before{ /* vertical mullion */
+    left:50%; top:0; bottom:0; width:1px;
+    transform: translateX(-50%);
+  }
+  .window-frame::after{ /* horizontal mullion */
+    top:50%; left:0; right:0; height:1px;
+    transform: translateY(-50%);
+  }
+  .vignette{
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    background:
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(10,15,18,0.55) 100%),
+      linear-gradient(to bottom, rgba(10,15,18,0.35), rgba(10,15,18,0) 15%, rgba(10,15,18,0) 80%, rgba(10,15,18,0.45));
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 20px clamp(18px, 5vw, 48px);
+    font-family:'Inter', sans-serif;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size: 1.05rem;
+    color: var(--amber);
+    letter-spacing: 0.02em;
+  }
+  .tabs{
+    display:flex; gap: clamp(6px, 2vw, 10px);
+    background: rgba(20,28,34,0.55);
+    border: 1px solid rgba(210,225,230,0.14);
+    padding: 5px;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+  .tabs button{
+    font-family:'Inter', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: transparent;
+    border: none;
+    color: var(--mist);
+    opacity: 0.65;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .tabs button:hover{ opacity: 0.9; }
+  .tabs button.active{
+    background: var(--amber);
+    color: var(--dusk-deep);
+    opacity: 1;
+    font-weight: 500;
+  }
+  .tabs button:focus-visible{ outline: 2px solid var(--mist); outline-offset: 2px; }
+
+  main{
+    position:relative; z-index:2;
+    min-height: 100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding: 110px 24px 60px;
+  }
+  .page{ display:none; width:100%; max-width: 1000px; }
+  .page.active{ display:block; animation: fade-in 0.6s ease; }
+  @keyframes fade-in{ from{ opacity:0; transform: translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .eyebrow{
+    font-family:'Inter', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rain);
+    margin: 0 0 10px;
+    text-align:center;
+  }
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: var(--mist);
+    text-align:center;
+    margin: 0 0 8px;
+  }
+  .sub{
+    text-align:center;
+    font-family:'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--rain);
+    margin: 0 0 48px;
+  }
+
+  /* ---------- PAGE 1: photos ---------- */
+  .gallery{
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap: 36px 28px;
+    padding: 10px 0 20px;
+  }
+  .polaroid{
+    background: #f2ece0;
+    padding: 14px 14px 46px;
+    width: 250px;
+    box-shadow: 0 18px 34px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .polaroid:nth-child(1){ transform: rotate(-4deg); }
+  .polaroid:nth-child(2){ transform: rotate(2.5deg); margin-top: 22px; }
+  .polaroid:nth-child(3){ transform: rotate(-1.5deg); }
+  .polaroid:hover{ transform: rotate(0deg) scale(1.03); transition: transform 0.35s ease; z-index: 3; }
+
+  .tape{
+    position:absolute; top:-12px; left:50%; transform: translateX(-50%) rotate(-2deg);
+    width: 70px; height: 24px;
+    background: rgba(217,164,65,0.55);
+    border: 1px solid rgba(217,164,65,0.3);
+  }
+  .polaroid:nth-child(2) .tape{ transform: translateX(-50%) rotate(3deg); }
+
+  .photo-slot{
+    width:100%; aspect-ratio: 1 / 1.05;
+    background-size: cover;
+    background-position: center;
+    background-color: #3a4a52;
+    background-image:
+      linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)),
+      repeating-linear-gradient(115deg, rgba(220,230,235,0.06) 0px, rgba(220,230,235,0.06) 2px, transparent 2px, transparent 10px);
+  }
+  /* EDIT PHOTO 1 — replace url() with your file, e.g. photo1.jpg */
+  #photo1{ background-image: url( ), linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)); }
+  /* EDIT PHOTO 2 */
+  #photo2{ background-image: url( ), linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)); }
+  /* EDIT PHOTO 3 */
+  #photo3{ background-image: url( ), linear-gradient(160deg, rgba(147,174,187,0.35), rgba(24,34,41,0.55)); }
+
+  .caption{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #4a3f2f;
+    text-align:center;
+    margin-top: 12px;
+  }
+
+  /* ---------- PAGE 2: letter ---------- */
+  .letter-wrap{ display:flex; justify-content:center; }
+  .letter{
+    background: var(--paper);
+    color: #3a2e20;
+    max-width: 560px;
+    width:100%;
+    padding: clamp(28px, 6vw, 56px) clamp(24px, 6vw, 48px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    position: relative;
+    background-image: repeating-linear-gradient(var(--paper) 0px, var(--paper) 33px, var(--paper-line) 34px);
+    line-height: 34px;
+  }
+  .stain{
+    position:absolute; top: 60px; right: 40px;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(168,93,61,0.22);
+    opacity: 0.8;
+  }
+  .letter-head{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: var(--clay);
+    margin: 0 0 18px;
+    line-height: 34px;
+  }
+  .letter p{
+    margin: 0 0 0;
+    font-size: 1rem;
+  }
+  .letter-sign{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    text-align: right;
+    margin-top: 18px;
+    color: var(--clay);
+  }
+
+  /* ---------- PAGE 3: song ---------- */
+  .song-stage{
+    display:flex; flex-direction:column; align-items:center; gap: 28px;
+  }
+  .vinyl{
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at center, var(--amber) 0 8%, var(--ink) 9% 11%, #10161a 12% 100%),
+      repeating-radial-gradient(circle at center, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 2px, transparent 6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    animation: spin 6s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){ .vinyl{ animation: none; } }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .player{
+    width: 100%; max-width: 420px;
+    background: rgba(20,28,34,0.55);
+    border: 1px solid rgba(210,225,230,0.14);
+    border-radius: 14px;
+    padding: 16px;
+    backdrop-filter: blur(6px);
+  }
+  .song-note{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--mist);
+    text-align:center;
+    max-width: 440px;
+    font-size: 1.05rem;
+    opacity: 0.85;
+  }
+
+  footer{
+    position:relative; z-index:2;
+    text-align:center;
+    font-family:'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--rain);
+    opacity: 0.6;
+    padding-bottom: 28px;
+  }
+
+  @media (max-width: 520px){
+    .tabs button{ padding: 7px 11px; font-size: 0.7rem; }
+    .polaroid{ width: 78vw; max-width: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="rain"></canvas>
+<div class="window-frame"></div>
+<div class="vignette"></div>
+
+<nav>
+  <div class="brand">baarish aur tum</div>
+  <div class="tabs" role="tablist" aria-label="Pages">
+    <button class="active" data-page="photos" role="tab" aria-selected="true">photos</button>
+    <button data-page="letter" role="tab" aria-selected="false">letter</button>
+    <button data-page="song" role="tab" aria-selected="false">song</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- PAGE 1 — PHOTOS -->
+  <section class="page active" id="page-photos">
+    <p class="eyebrow">Delhi, monsoon</p>
+    <!-- EDIT NAME -->
+    <h1 class="title">a few frames of us, [C]</h1>
+    <p class="sub">taped up before the ink could run in the rain</p>
+
+    <div class="gallery">
+      <figure class="polaroid">
+        <div class="tape"></div>
+        <div class="photo-slot" id="photo1"></div>
+        <!-- EDIT caption 1 -->
+        <figcaption class="caption">I miss you</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <div class="tape"></div>
+        <div class="photo-slot" id="photo2"></div>
+        <!-- EDIT caption 2 -->
+        <figcaption class="caption">My happiness</figcaption>
+      </figure>
+      <figure class="polaroid">
+        <div class="tape"></div>
+        <div class="photo-slot" id="photo3"></div>
+        <!-- EDIT caption 3 -->
+        <figcaption class="caption">my person</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PAGE 2 — LETTER -->
+  <section class="page" id="page-letter">
+    <p class="eyebrow">for you, on a grey afternoon</p>
+    <h1 class="title">a small letter</h1>
+    <p class="sub">read it slow, like the traffic outside your college</p>
+
+    <div class="letter-wrap">
+      <div class="letter">
+        <div class="stain"></div>
+        <!-- EDIT NAME -->
+        <p class="letter-head">Dear C,</p>
+
+        <!-- EDIT LETTER — replace this paragraph with your own words -->
+        <p>
+          I love you C. With all my heart and all my being. Everything about you is 
+          my favourite part about you. I know we haven’t been doing the best
+          but I want you to know that you mean the world to me. You are the
+          love of my life. You are the woman of my dreams and I want to spend the
+          rest of my life with you. I love you more always. You’re the perfect girlfriend
+          to me. I love you my c. Always.
+        </p>
+
+        <p class="letter-sign">— always, in every season</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 3 — SONG -->
+  <section class="page" id="page-song">
+    <p class="eyebrow">put this on</p>
+    <h1 class="title">our song </h1>
+    <p class="sub">I love you and us</p>
+
+    <div class="song-stage">
+      <div class="vinyl" aria-hidden="true"></div>
+      <div class="player">
+        <!--
+          EDIT SONG — go to the track on Spotify → Share → Embed track,
+          copy the src="https://open.spotify.com/embed/track/....." value
+          and paste it below in place of the placeholder link.
+        -->
+        <iframe
+          style="border-radius:10px"
+          src="https://open.spotify.com/embed/track/YOUR_TRACK_ID_HERE"
+          width="100%" height="152" frameborder="0"
+          allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+      </div>
+      <p class="song-note">this one's ours.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>made on a rainy day, for a rainy day</footer>
+
+<script>
+  // ---- tab switching ----
+  const buttons = document.querySelectorAll('.tabs button');
+  const pages = document.querySelectorAll('.page');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      pages.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      document.getElementById('page-' + btn.dataset.page).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // ---- rain canvas ----
+  const canvas = document.getElementById('rain');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let drops = [];
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function makeDrop(){
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * -canvas.height,
+      len: 14 + Math.random() * 22,
+      speed: 6 + Math.random() * 8,
+      drift: 1.2 + Math.random() * 0.6,
+      opacity: 0.08 + Math.random() * 0.22
+    };
+  }
+
+  const DROP_COUNT = Math.min(140, Math.floor(window.innerWidth / 9));
+  for(let i=0; i<DROP_COUNT; i++) drops.push(makeDrop());
+
+  function tick(){
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    ctx.strokeStyle = 'rgba(200, 220, 230, 1)';
+    ctx.lineWidth = 1;
+    drops.forEach(d => {
+      ctx.globalAlpha = d.opacity;
+      ctx.beginPath();
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x - d.drift * 2, d.y + d.len);
+      ctx.stroke();
+      d.y += d.speed;
+      d.x -= d.drift;
+      if(d.y > canvas.height){
+        d.y = -20;
+        d.x = Math.random() * canvas.width;
+      }
+    });
+    ctx.globalAlpha = 1;
+    if(!reduceMotion) requestAnimationFrame(tick);
+  }
+
+  if(reduceMotion){
+    // draw a single static frame instead of animating
+    tick();
+  } else {
+    requestAnimationFrame(tick);
+  }
+</script>
+
+</body>
+</html>
